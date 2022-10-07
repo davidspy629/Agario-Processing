@@ -31,7 +31,7 @@ void draw() {
     float d = dist(mover.location.x, mover.location.y, food.x, food.y);
     food.show();
     if (d < (mover.rad + red)/2) {
-      mover.rad += red/2;
+      mover.rad += calculateDeltaRadius(mover.rad, 10);;
     }
   }
   for (int i =0; i<foodList.size(); i++) {
@@ -40,4 +40,14 @@ void draw() {
       foodList.remove(i);
     }
   }
+}
+
+float calculateDeltaRadius(float playerRadius, float foodRadius){
+  float deltaRadius;
+  float areaPlayer = sq(playerRadius)*PI;
+  float areaFood = sq(foodRadius)*PI;
+  float areaSum = areaPlayer+areaFood;
+  float radiusSum = sqrt(areaSum/PI);
+  deltaRadius = radiusSum - playerRadius;
+  return deltaRadius;
 }
