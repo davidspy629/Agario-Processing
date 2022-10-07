@@ -31,7 +31,7 @@ void draw() {
     float d = dist(mover.location.x, mover.location.y, food.x, food.y);
     food.show();
     if (d < (mover.rad + red)/2) {
-      mover.rad += calculateDeltaRadius(mover.rad, 10);;
+      mover.rad += calculateDeltaRadius(mover.rad, 20);;
     }
   }
   for (int i =0; i<foodList.size(); i++) {
