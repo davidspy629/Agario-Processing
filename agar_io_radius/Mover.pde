@@ -11,13 +11,13 @@ class Mover {
   Mover() {
     location = new PVector(width/2, height/2);
     velocity = new PVector(0, 0);
-    topspeed = 2;
+    topspeed = 6;
   }
 
   void update() {
     PVector mouse = new PVector(mouseX, mouseY);
     PVector acceleration = PVector.sub(mouse, location);
-    acceleration.setMag(3);
+    acceleration.setMag(6);
 
     velocity.add(acceleration);
     velocity.limit(topspeed);
