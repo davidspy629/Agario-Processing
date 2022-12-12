@@ -1,7 +1,4 @@
-
-
 class Mover {
-
   PVector location;
   PVector velocity;
   PVector acceleration;
@@ -9,14 +6,15 @@ class Mover {
   int rad = 50;
 
   Mover() {
-    location = new PVector(width/2, height/2);
+    location = new PVector(width/2,height/2);
     velocity = new PVector(0, 0);
     topspeed = 6;
   }
 
   void update() {
     PVector mouse = new PVector(mouseX, mouseY);
-    PVector acceleration = PVector.sub(mouse, location);
+    PVector center = new PVector(width/2, height/2);
+    PVector acceleration = PVector.sub(mouse, center);
     acceleration.setMag(6);
 
     velocity.add(acceleration);
@@ -28,6 +26,6 @@ class Mover {
     stroke(200, 0, 0);
     strokeWeight(10);
     fill(255, 0, 0);
-    ellipse(location.x, location.y, rad, rad);
+    ellipse(width/2, height/2, rad, rad);
   }
 }

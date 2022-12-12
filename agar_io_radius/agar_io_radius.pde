@@ -1,6 +1,5 @@
 float d;
 int red = 10;
-PVector location;
 Mover mover;
 Food food;
 ArrayList<Food> foodList;
@@ -10,8 +9,8 @@ void setup() {
   foodList = new ArrayList<Food>();
   background(51);
   mover = new Mover();
-  for (int i = 0; i < 200; i++) {
-    foodList.add(new Food(random(width), random(height)));
+  for (int i = 0; i < 1000; i++) {
+    foodList.add(new Food(random(2000), random(2000)));
     foodList.get(i).show();
   }
 }
@@ -20,24 +19,23 @@ void setup() {
 void draw() {
   background(0);
   println(mover.rad);
-  pushMatrix();
   mover.update();
   mover.display();
-  popMatrix();
-  //translate (width/2 -mover.location.x, height/2 -mover.location.y);
-
   fill(255, 0, 0);
+  pushMatrix();
+  translate(-mover.location.x, -mover.location.y);
   for (Food food : foodList) {
-    float d = dist(mover.location.x, mover.location.y, food.x, food.y);
+    float d = dist(mover.location.x+width/2, mover.location.y+height/2, food.x, food.y);
     food.show();
-    if (d < (mover.rad)) {
-      mover.rad += calculateDeltaRadius(mover.rad, 10);;
+    if (d < (mover.rad/2+10)) {
+      mover.rad += 1;
       print(true);
     }
   }
+  popMatrix();
   for (int i =0; i<foodList.size(); i++) {
-    float d = dist(mover.location.x, mover.location.y, foodList.get(i).x, foodList.get(i).y);
-    if (d < (mover.rad)) {
+    float d = dist(mover.location.x+width/2, mover.location.y+height/2, foodList.get(i).x, foodList.get(i).y);
+    if (d < (mover.rad/2+10)) {
       foodList.remove(i);
     }
   }
