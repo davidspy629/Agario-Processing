@@ -28,6 +28,7 @@ void draw() {
     float d = dist(mover.location.x+width/2, mover.location.y+height/2, food.x, food.y);
     food.show();
     if (d < (mover.rad/2+10)) {
+      mover.acceleration.setMag(-5/100);
       mover.rad += 1;
       print(true);
     }
