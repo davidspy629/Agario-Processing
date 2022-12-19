@@ -1,10 +1,14 @@
 class Food {
-  float x, y;
+  PVector location;
+  PVector velocity;
+  PVector acceleration;
+  float topspeed;
   color foodColor;
 
   Food(float x, float y, color foodColor) {
-    this.x = x;
-    this.y = y;
+    location = new PVector(x,y);
+    velocity = new PVector(0, 0);
+    topspeed = 6;
     this.foodColor = foodColor;
   }
 
