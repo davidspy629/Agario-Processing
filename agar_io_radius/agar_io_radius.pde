@@ -1,15 +1,15 @@
 Mover mover; //<>//
 float zoom = 1.5;
 ArrayList<Food> foodList;
-float feldSizeX = 1000;
+float feldSizeX = 100;
 float feldSizeY = feldSizeX;
 
 void setup() {
   size(1000, 1000);
   foodList = new ArrayList<Food>();
   mover = new Mover();
-  for (int i = 0; i < 4000; i++) {
-    foodList.add(new Food(random(feldSizeX), random(feldSizeY), color(random(255), random(255), random(255))));
+  for (int i = 0; i < 5000; i++) {
+    foodList.add(new Food(random(0,feldSizeX), random(0,feldSizeY), color(random(255), random(255), random(255))));
     foodList.get(i).show();
   }
 }
@@ -21,8 +21,6 @@ void draw() {
   translate(width/2, height/2);
   scale(zoom);
   translate(-width/2, -height/2);
-
-
   updatePosition();
   gridBackground();
   mover.display();
@@ -71,6 +69,7 @@ void updatePosition() {
 
 void gridBackground() {
   stroke(0);
+  ellipse(mover.location.x, mover.location.y, 200, 200);
   for (float i = -feldSizeX/2; i <= feldSizeX/2; i+= 100)
     line(-feldSizeX/2+mover.location.x, i+mover.location.y, feldSizeX/2+mover.location.x, i+mover.location.y);
   for (float i = -feldSizeY/2; i <= feldSizeY/2; i+= 100)

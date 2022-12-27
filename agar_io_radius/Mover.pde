@@ -6,7 +6,7 @@ class Mover {
   float rad = 50;
 
   Mover() {
-    location = new PVector(width/2,height/2);
+    location = new PVector(0,0);
     velocity = new PVector(0, 0);
     topspeed = 6;
   }
