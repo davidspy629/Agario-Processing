@@ -1,27 +1,30 @@
 Mover mover; //<>//
 float zoom = 1.5;
 ArrayList<Food> foodList;
+float feldSizeX = 1000;
+float feldSizeY = feldSizeX;
 
 void setup() {
   size(1000, 1000);
   foodList = new ArrayList<Food>();
   mover = new Mover();
-  for (int i = 0; i < 2500; i++) {
-    foodList.add(new Food(random(1000), random(1000), color(random(255), random(255), random(255))));
+  for (int i = 0; i < 4000; i++) {
+    foodList.add(new Food(random(feldSizeX), random(feldSizeY), color(random(255), random(255), random(255))));
     foodList.get(i).show();
   }
 }
 
 
 void draw() {
+  stroke(0);
   background(255);
-  gridBackground();
   translate(width/2, height/2);
-  scale(zoom); 
+  scale(zoom);
   translate(-width/2, -height/2);
-  if (zoom > 0.05)
-    zoom = 1/mover.rad*100+mover.rad/400;
+
+
   updatePosition();
+  gridBackground();
   mover.display();
   fill(255, 0, 0);
 
@@ -31,6 +34,9 @@ void draw() {
     food.show();
     if (d < (mover.rad/2 +10)) {
       mover.rad += calculateDeltaRadius(mover.rad, 10);
+      if (zoom > 0.75) {
+        zoom -= pow(zoom, 2)/10000;
+      }
       foodList.remove(food);
     }
   }
@@ -43,7 +49,6 @@ float calculateDeltaRadius(float playerRadius, float foodRadius) {
   float areaSum = areaPlayer+areaFood;
   float radiusSum = sqrt(areaSum/PI);
   deltaRadius = radiusSum - playerRadius;
-  println(deltaRadius);
   return deltaRadius;
 }
 
@@ -64,16 +69,10 @@ void updatePosition() {
   }
 }
 
-
-void gridBackground(){
+void gridBackground() {
   stroke(0);
-  pushMatrix();
-  //float distance = 1.0/zoom*40;
-  float distance = 100;
-  translate(mover.location.x%distance, mover.location.y%distance);
-  for(float i = -2*width; i < 2*width; i+= distance)
-    line(-width, i, 2*height, i);
-  for(float i = -height; i < 2*height; i+= distance)
-    line(i, -height, i, 2*width);
-   popMatrix();
+  for (float i = -feldSizeX/2; i <= feldSizeX/2; i+= 100)
+    line(-feldSizeX/2+mover.location.x, i+mover.location.y, feldSizeX/2+mover.location.x, i+mover.location.y);
+  for (float i = -feldSizeY/2; i <= feldSizeY/2; i+= 100)
+    line(i+mover.location.x, -feldSizeY/2+mover.location.y, i+mover.location.x, feldSizeY/2+mover.location.y);
 }
