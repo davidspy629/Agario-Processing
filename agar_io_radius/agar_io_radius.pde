@@ -1,21 +1,23 @@
 Mover mover; //<>//
 float zoom = 1.5;
 ArrayList<Food> foodList;
-float feldSizeX = 100;
-float feldSizeY = feldSizeX;
+float feldSizeX = 1000;
+float feldSizeY = 1000;
 
 void setup() {
   size(1000, 1000);
   foodList = new ArrayList<Food>();
   mover = new Mover();
   for (int i = 0; i < 5000; i++) {
-    foodList.add(new Food(random(0,feldSizeX), random(0,feldSizeY), color(random(255), random(255), random(255))));
+    foodList.add(new Food(random(0, feldSizeX), random(0, feldSizeY), color(random(255), random(255), random(255))));
     foodList.get(i).show();
   }
 }
 
 
 void draw() {
+
+  translate(-mover.location.x*zoom+width/2*zoom, -mover.location.y*zoom+height/2*zoom);
   stroke(0);
   background(255);
   translate(width/2, height/2);
@@ -24,11 +26,10 @@ void draw() {
   updatePosition();
   gridBackground();
   mover.display();
-  fill(255, 0, 0);
-
+  //fill(255, 0, 0);
   for (int i =0; i<foodList.size(); i++) {
     Food food = foodList.get(i);
-    float d = dist(width/2, height/2, food.location.x, food.location.y);
+    float d = dist(mover.location.x, mover.location.y, food.x, food.y);
     food.show();
     if (d < (mover.rad/2 +10)) {
       mover.rad += calculateDeltaRadius(mover.rad, 10);
@@ -54,24 +55,20 @@ float calculateDeltaRadius(float playerRadius, float foodRadius) {
 void updatePosition() {
   PVector mouse = new PVector(mouseX, mouseY);
   PVector center = new PVector(width/2, height/2);
-  PVector acceleration = PVector.sub(center, mouse);
+  PVector acceleration = PVector.sub(mouse, center);
   acceleration.setMag(dist(mouseX, mouseY, width/2, height/2)/1000);
-
+  if (mover.location.x>0&&mover.location.x<feldSizeX){
+    
+  }
   mover.velocity.add(acceleration);
   mover.velocity.limit(mover.topspeed);
   mover.location.add(mover.velocity);
-  for (Food food : foodList) {
-    food.velocity.add(acceleration);
-    food.velocity.limit(mover.topspeed);
-    food.location.add(mover.velocity);
-  }
 }
 
 void gridBackground() {
   stroke(0);
-  ellipse(mover.location.x, mover.location.y, 200, 200);
-  for (float i = -feldSizeX/2; i <= feldSizeX/2; i+= 100)
-    line(-feldSizeX/2+mover.location.x, i+mover.location.y, feldSizeX/2+mover.location.x, i+mover.location.y);
-  for (float i = -feldSizeY/2; i <= feldSizeY/2; i+= 100)
-    line(i+mover.location.x, -feldSizeY/2+mover.location.y, i+mover.location.x, feldSizeY/2+mover.location.y);
+  for (float i = 0; i <= feldSizeX; i+= 100)
+    line(0, i, feldSizeX, i);
+  for (float i = 0; i <= feldSizeY; i+= 100)
+    line(i, 0, i, feldSizeY);
 }

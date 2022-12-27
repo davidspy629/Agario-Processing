@@ -6,7 +6,7 @@ class Mover {
   float rad = 50;
 
   Mover() {
-    location = new PVector(0,0);
+    location = new PVector(feldSizeX/2,feldSizeY/2);
     velocity = new PVector(0, 0);
     topspeed = 6;
   }
@@ -15,6 +15,6 @@ class Mover {
     stroke(200, 0, 0);
     strokeWeight(10);
     fill(255, 0, 0);
-    ellipse(width/2, height/2, rad, rad);
+    ellipse(location.x, location.y, rad, rad);
   }
 }
