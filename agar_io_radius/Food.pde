@@ -15,6 +15,6 @@ class Food {
   void show() {
     fill(foodColor);
     strokeWeight(0);
-    ellipse(this.x, this.y, 10, 10);
+    ellipse(this.location.x, this.location.y, 10, 10);
   }
 }

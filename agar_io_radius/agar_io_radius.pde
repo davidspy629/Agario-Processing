@@ -1,56 +1,79 @@
-Mover mover;
-float zoom = 0.25;
-float zoom2 = 0.01;
+Mover mover; //<>//
+float zoom = 1.5;
 ArrayList<Food> foodList;
 
 void setup() {
   size(1000, 1000);
   foodList = new ArrayList<Food>();
   mover = new Mover();
-  for (int i = 0; i < 1000; i++) {
-    foodList.add(new Food(random(2000), random(2000), color(random(255), random(255), random(255))));
+  for (int i = 0; i < 2500; i++) {
+    foodList.add(new Food(random(1000), random(1000), color(random(255), random(255), random(255))));
     foodList.get(i).show();
   }
 }
 
 
 void draw() {
-  background(0);
-  /*float cameraX = mover.location.x-width/2;
-  float cameraY = mover.location.y-height/2;
-  translate(-cameraX,-cameraY);
-  scale(zoom);
-  translate(cameraX,cameraY);*/
-  float oldPosX = mover.location.x;
-  float oldPosY = mover.location.y;
-  mover.update();
+  background(255);
+  gridBackground();
+  translate(width/2, height/2);
+  scale(zoom); 
+  translate(-width/2, -height/2);
+  if (zoom > 0.05)
+    zoom = 1/mover.rad*100+mover.rad/400;
+  updatePosition();
   mover.display();
-  float deltaPosX = mover.location.x - oldPosX;
-  float deltaPosY = mover.location.y - oldPosY;
-  //pushMatrix();
   fill(255, 0, 0);
-  
+
   for (int i =0; i<foodList.size(); i++) {
     Food food = foodList.get(i);
-    food.x -= deltaPosX*2;
-    food.y -= deltaPosY*2;
-    float d = dist(mover.location.x, mover.location.y, food.x, food.y);
+    float d = dist(width/2, height/2, food.location.x, food.location.y);
     food.show();
-    if (d < (mover.rad/2+10)) {
-      mover.rad += 1;
-      //zoom+=0.01;
+    if (d < (mover.rad/2 +10)) {
+      mover.rad += calculateDeltaRadius(mover.rad, 10);
       foodList.remove(food);
     }
   }
-  //popMatrix();
 }
 
-int calculateDeltaRadius(float playerRadius, float foodRadius){
+float calculateDeltaRadius(float playerRadius, float foodRadius) {
   float deltaRadius;
-  float areaPlayer = sq(playerRadius)*PI;
-  float areaFood = sq(foodRadius)*PI;
+  float areaPlayer = pow(playerRadius, 2)*PI;
+  float areaFood = pow(foodRadius, 2)*PI;
   float areaSum = areaPlayer+areaFood;
   float radiusSum = sqrt(areaSum/PI);
   deltaRadius = radiusSum - playerRadius;
-  return int(deltaRadius);
+  println(deltaRadius);
+  return deltaRadius;
+}
+
+
+void updatePosition() {
+  PVector mouse = new PVector(mouseX, mouseY);
+  PVector center = new PVector(width/2, height/2);
+  PVector acceleration = PVector.sub(center, mouse);
+  acceleration.setMag(dist(mouseX, mouseY, width/2, height/2)/1000);
+
+  mover.velocity.add(acceleration);
+  mover.velocity.limit(mover.topspeed);
+  mover.location.add(mover.velocity);
+  for (Food food : foodList) {
+    food.velocity.add(acceleration);
+    food.velocity.limit(mover.topspeed);
+    food.location.add(mover.velocity);
+  }
+}
+
+
+void gridBackground(){
+  stroke(0);
+  pushMatrix();
+  //float distance = 1.0/zoom*40;
+  float distance = 100;
+  translate(mover.location.x%distance, mover.location.y%distance);
+  for(float i = -2*width; i < 2*width; i+= distance)
+    line(-width, i, 2*height, i);
+  for(float i = -height; i < 2*height; i+= distance)
+    line(i, -height, i, 2*width);
+   popMatrix();
 }
