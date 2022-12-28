@@ -57,12 +57,13 @@ void updatePosition() {
   PVector center = new PVector(width/2, height/2);
   PVector acceleration = PVector.sub(mouse, center);
   acceleration.setMag(dist(mouseX, mouseY, width/2, height/2)/1000);
-  if (mover.location.x>0&&mover.location.x<feldSizeX){
-    
-  }
+  
   mover.velocity.add(acceleration);
   mover.velocity.limit(mover.topspeed);
   mover.location.add(mover.velocity);
+  
+  mover.location.x = constrain(mover.location.x, 0+mover.rad/2, feldSizeX-mover.rad/2);
+  mover.location.y = constrain(mover.location.y, 0+mover.rad/2, feldSizeY-mover.rad/2);
 }
 
 void gridBackground() {
