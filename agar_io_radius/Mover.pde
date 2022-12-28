@@ -16,5 +16,9 @@ class Mover {
     strokeWeight(10);
     fill(255, 0, 0);
     ellipse(location.x, location.y, rad, rad);
+    stroke(0);
+    fill(0);
+    textSize(rad/10);
+    text(rad, location.x, location.y+rad/20);
   }
 }

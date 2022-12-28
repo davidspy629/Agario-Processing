@@ -6,6 +6,7 @@ float feldSizeY = 1000;
 
 void setup() {
   size(1000, 1000);
+  textAlign(CENTER);
   foodList = new ArrayList<Food>();
   mover = new Mover();
   for (int i = 0; i < 5000; i++) {
