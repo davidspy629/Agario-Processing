@@ -4,6 +4,7 @@ class Mover {
   PVector acceleration;
   float topspeed;
   float rad = 50;
+  int points = 20;
 
   Mover() {
     location = new PVector(feldSizeX/2,feldSizeY/2);
@@ -19,6 +20,6 @@ class Mover {
     stroke(0);
     fill(0);
     textSize(rad/10);
-    text(rad, location.x, location.y+rad/20);
+    text(points, location.x, location.y+rad/20);
   }
 }

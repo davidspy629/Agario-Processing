@@ -1,12 +1,17 @@
-Mover mover; //<>//
+import processing.net.*; //<>//
+
+Client client;
+Mover mover;
 float zoom = 1.5;
 ArrayList<Food> foodList;
 float feldSizeX = 10000;
 float feldSizeY = 10000;
 
 void setup() {
-  size(1000, 1000);
+  size(1000,1000);
+  frameRate(120);
   textAlign(CENTER);
+  //client = new Client(this, "127.0.0.1", 5204);
   foodList = new ArrayList<Food>();
   mover = new Mover();
   for (int i = 0; i < 5000; i++) {
@@ -17,7 +22,6 @@ void setup() {
 
 
 void draw() {
-
   translate(-mover.location.x*zoom+width/2*zoom, -mover.location.y*zoom+height/2*zoom);
   stroke(0);
   background(255);
@@ -34,12 +38,26 @@ void draw() {
     food.show();
     if (d < (mover.rad/2 +10)) {
       mover.rad += calculateDeltaRadius(mover.rad, 10);
+      mover.points++;
       if (zoom > 0.75) {
         zoom -= pow(zoom, 2)/10000;
       }
       foodList.remove(food);
     }
   }
+}
+
+void keyPressed(){
+  switch(key) {
+     case ' ':
+         if(mover.points > 50) {
+           background(0);
+         } 
+       break;
+     default: break;
+  }
+  
+  
 }
 
 float calculateDeltaRadius(float playerRadius, float foodRadius) {
