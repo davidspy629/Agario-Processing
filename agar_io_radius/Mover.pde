@@ -1,15 +1,19 @@
 class Mover {
+  Client client;
   PVector location;
   PVector velocity;
   PVector acceleration;
   float topspeed;
   float rad = 50;
-  int points = 20;
-
-  Mover() {
+  int points = 20, id;
+  
+  
+  Mover(Client client) {
+    this.client = client;
     location = new PVector(feldSizeX/2,feldSizeY/2);
     velocity = new PVector(0, 0);
     topspeed = 6;
+    id = int(random(50000));
   }
 
   void display() {
@@ -21,5 +25,6 @@ class Mover {
     fill(0);
     textSize(rad/10);
     text(points, location.x, location.y+rad/20);
+    client.write(id + ";" + location.x + ";" + location.y + ";" + rad + ";" + points + "\n");
   }
 }

@@ -1,4 +1,4 @@
-import processing.net.*; //<>//
+import processing.net.*; //<>// //<>//
 
 Client client;
 Mover mover;
@@ -10,13 +10,13 @@ float feldSizeY = 10000;
 
 
 void setup() {
-  size(1000,1000);
+  size(1000, 1000);
   frameRate(120);
   textAlign(CENTER);
-  //client = new Client(this, "127.0.0.1", 5204);
+  client = new Client(this, "192.168.1.13", 5204);
   foodList = new ArrayList<Food>();
-  mover = new Mover();
-  for (int i = 0; i < 5000; i++) {
+  mover = new Mover(client);
+  for (int i = 0; i < 2000; i++) {
     foodList.add(new Food(random(0, feldSizeX), random(0, feldSizeY), color(random(255), random(255), random(255))));
     foodList.get(i).show();
   }
@@ -47,6 +47,10 @@ void draw() {
       foodList.remove(food);
     }
   }
+  
+  
+  println(client.readString());
+  
 }
 
 void keyPressed(){
