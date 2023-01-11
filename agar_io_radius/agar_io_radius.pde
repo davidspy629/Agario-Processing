@@ -1,22 +1,22 @@
-import processing.net.*; //<>//
+import processing.net.*; //<>// //<>//
 
 Client client;
 Mover mover;
 float zoom = 1.5;
 ArrayList<Food> foodList;
-float feldSizeX = 10000;
-float feldSizeY = 10000;
+float feldSizeX = 3000;
+float feldSizeY = 3000;
 
 
 
 void setup() {
-  size(1000,1000);
-  frameRate(120);
+  fullScreen();
+  frameRate(120000000);
   textAlign(CENTER);
   //client = new Client(this, "127.0.0.1", 5204);
   foodList = new ArrayList<Food>();
   mover = new Mover();
-  for (int i = 0; i < 5000; i++) {
+  for (int i = 0; i < 100000; i++) {
     foodList.add(new Food(random(0, feldSizeX), random(0, feldSizeY), color(random(255), random(255), random(255))));
     foodList.get(i).show();
   }
